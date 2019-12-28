@@ -1,0 +1,6 @@
+- hosts: localhost
+  become: true
+  tasks:
+    - name: Update repositories cache
+      apt:
+        update_cache: true
