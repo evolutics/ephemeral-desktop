@@ -1,10 +1,11 @@
 - hosts: localhost
-  become: true
   tasks:
     - name: Update repositories cache
+      become: true
       apt:
         update_cache: true
     - name: Configure keyboard layouts
+      become: true
       lineinfile:
         path: /etc/default/keyboard
         regexp: "{{ item.regexp }}"
@@ -18,6 +19,7 @@
     - name: Set up desktop environment
       block:
         - name: Install packages
+          become: true
           apt:
             name:
               - virtualbox-guest-dkms
@@ -25,17 +27,21 @@
               - virtualbox-guest-x11
               - xfce4
         - name: Allow anyone to use it
+          become: true
           lineinfile:
             path: /etc/X11/Xwrapper.config
             regexp: "^allowed_users="
             line: allowed_users=anybody
     - name: Install packages
+      become: true
       apt:
         name:
           - firefox
     - name: Update all present packages
+      become: true
       apt:
         upgrade: full
   handlers:
     - name: Reconfigure keyboard configuration
+      become: true
       command: dpkg-reconfigure --frontend noninteractive keyboard-configuration
