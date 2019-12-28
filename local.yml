@@ -22,3 +22,6 @@
       apt:
         name:
           - firefox
+    - name: Update all present packages
+      apt:
+        upgrade: full
