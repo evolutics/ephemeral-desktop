@@ -1,1 +1,1 @@
-# vagrant-ubuntu-desktop
+# Vagrant for Ubuntu with a Desktop
