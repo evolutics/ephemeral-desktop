@@ -4,3 +4,17 @@
     - name: Update repositories cache
       apt:
         update_cache: true
+    - name: Set up desktop environment
+      block:
+        - name: Install packages
+          apt:
+            name:
+              - virtualbox-guest-dkms
+              - virtualbox-guest-utils
+              - virtualbox-guest-x11
+              - xfce4
+        - name: Allow anyone to use it
+          lineinfile:
+            path: /etc/X11/Xwrapper.config
+            regexp: "^allowed_users="
+            line: allowed_users=anybody
