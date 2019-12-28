@@ -4,6 +4,17 @@
     - name: Update repositories cache
       apt:
         update_cache: true
+    - name: Configure keyboard layouts
+      lineinfile:
+        path: /etc/default/keyboard
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+      with_items:
+        - regexp: "^XKBLAYOUT="
+          line: 'XKBLAYOUT="de,us"'
+        - regexp: "^XKBVARIANT="
+          line: 'XKBVARIANT="neo,"'
+      notify: Reconfigure keyboard configuration
     - name: Set up desktop environment
       block:
         - name: Install packages
@@ -25,3 +36,6 @@
     - name: Update all present packages
       apt:
         upgrade: full
+  handlers:
+    - name: Reconfigure keyboard configuration
+      command: dpkg-reconfigure --frontend noninteractive keyboard-configuration
