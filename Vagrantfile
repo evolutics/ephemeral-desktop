@@ -11,4 +11,6 @@ Vagrant.configure("2") do |config|
     ansible.limit = "all,localhost"
   end
   config.vm.provision "shell", inline: "reboot"
+
+  config.vm.synced_folder "share", "/home/vagrant/Downloads"
 end
