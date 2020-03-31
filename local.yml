@@ -42,6 +42,13 @@
       apt:
         name:
           - firefox
+    - name: Modify Firefox default preferences
+      become: true
+      lineinfile:
+        path: /etc/firefox/syspref.js
+        line: "{{ item }}"
+      with_items:
+        - 'pref("signon.rememberSignons", false);'
     - name: Update all present packages
       become: true
       apt:
