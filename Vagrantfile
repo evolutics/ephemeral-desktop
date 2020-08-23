@@ -7,7 +7,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision "ansible_local" do |ansible|
-    ansible.playbook = "local.yml"
+    ansible.playbook = "playbook.yml"
     ansible.limit = "all,localhost"
   end
   config.vm.provision "shell", inline: "reboot"
