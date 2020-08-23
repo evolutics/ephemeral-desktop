@@ -48,6 +48,7 @@
         path: /etc/firefox/syspref.js
         line: "{{ item }}"
       with_items:
+        - 'pref("places.history.enabled", false);'
         - 'pref("signon.rememberSignons", false);'
     - name: Update all present packages
       become: true
