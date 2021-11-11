@@ -26,17 +26,14 @@
               - virtualbox-guest-utils
               - virtualbox-guest-x11
               - xfce4
-        - name: Allow anyone to use it
+        - name: Use Xfce by default
           become: true
-          lineinfile:
-            path: /etc/X11/Xwrapper.config
-            regexp: "^allowed_users="
-            line: allowed_users=anybody
-        - name: Start it at login
-          lineinfile:
-            path: "{{ ansible_env.HOME }}/.profile"
-            regexp: " exec startx "
-            line: 'if [[ "${XDG_VTNR}" -eq 1 ]]; then exec startx ; fi'
+          ini_file:
+            path: /var/lib/AccountsService/users/vagrant
+            section: User
+            option: XSession
+            value: xfce
+            mode: u=rw,g=,o=
     - name: Install packages
       become: true
       apt:
