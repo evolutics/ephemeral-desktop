@@ -12,5 +12,5 @@ Vagrant.configure("2") do |config|
   end
   config.vm.provision "shell", inline: "reboot"
 
-  config.vm.synced_folder "share", "/home/vagrant/Downloads"
+  config.vm.synced_folder "wormhole", "/home/vagrant/Desktop/wormhole"
 end
