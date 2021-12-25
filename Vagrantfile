@@ -4,6 +4,7 @@ Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox" do |vb|
     vb.gui = true
     vb.memory = "2048"
+    vb.customize ["modifyvm", :id, "--clipboard-mode", "hosttoguest"]
   end
 
   config.vm.provision "ansible_local" do |ansible|
