@@ -45,7 +45,6 @@
         path: /etc/firefox/syspref.js
         line: "{{ item }}"
       with_items:
-        - 'pref("browser.startup.homepage", "{{ home_page }}");'
         - 'pref("places.history.enabled", false);'
         - 'pref("signon.rememberSignons", false);'
     - name: Update all present packages
