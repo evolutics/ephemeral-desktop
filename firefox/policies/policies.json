@@ -1,0 +1,6 @@
+{
+  "policies": {
+    "OfferToSaveLogins": false,
+    "SanitizeOnShutdown": true
+  }
+}

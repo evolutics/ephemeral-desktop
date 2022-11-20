@@ -1,57 +1,50 @@
-- hosts: localhost
+- name: Do system-wide setup
+  hosts: localhost
   tasks:
     - name: Update repositories cache
       become: true
-      apt:
+      ansible.builtin.apt:
         update_cache: true
-    - name: Configure keyboard layouts
-      become: true
-      lineinfile:
-        path: /etc/default/keyboard
-        regexp: "{{ item.regexp }}"
-        line: "{{ item.line }}"
-      with_items:
-        - regexp: "^XKBLAYOUT="
-          line: 'XKBLAYOUT="de,us"'
-        - regexp: "^XKBVARIANT="
-          line: 'XKBVARIANT="neo,"'
-      notify: Reconfigure keyboard configuration
-    - name: Set up desktop environment
-      block:
-        - name: Install packages
-          become: true
-          apt:
-            name:
-              - virtualbox-guest-dkms
-              - virtualbox-guest-utils
-              - virtualbox-guest-x11
-              - xfce4
-        - name: Use Xfce by default
-          become: true
-          ini_file:
-            path: /var/lib/AccountsService/users/vagrant
-            section: User
-            option: XSession
-            value: xfce
-            mode: u=rw,g=,o=
+
     - name: Install packages
       become: true
-      apt:
+      ansible.builtin.package:
         name:
           - firefox
-    - name: Modify Firefox default preferences
+          - virtualbox-guest-dkms
+          - virtualbox-guest-utils
+          - virtualbox-guest-x11
+          - xfce4
+
+    - name: Configure keyboard layouts
       become: true
-      lineinfile:
-        path: /etc/firefox/syspref.js
-        line: "{{ item }}"
+      ansible.builtin.lineinfile:
+        line: "{{ item.line }}"
+        path: /etc/default/keyboard
+        regexp: "{{ item.regexp }}"
       with_items:
-        - 'pref("places.history.enabled", false);'
-        - 'pref("signon.rememberSignons", false);'
+        - line: 'XKBLAYOUT="de,us"'
+          regexp: "^XKBLAYOUT="
+        - line: 'XKBVARIANT="neo,"'
+          regexp: "^XKBVARIANT="
+
+    - name: Configure Firefox
+      become: true
+      ansible.builtin.copy:
+        dest: /etc/firefox
+        mode: preserve
+        src: firefox/policies
+
+    - name: Use Xfce by default
+      become: true
+      community.general.ini_file:
+        mode: u=rw,g=,o=
+        option: XSession
+        path: /var/lib/AccountsService/users/vagrant
+        section: User
+        value: xfce
+
     - name: Update all present packages
       become: true
-      apt:
+      ansible.builtin.apt:
         upgrade: full
-  handlers:
-    - name: Reconfigure keyboard configuration
-      become: true
-      command: dpkg-reconfigure --frontend noninteractive keyboard-configuration
