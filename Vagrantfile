@@ -1,12 +1,14 @@
 Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu/focal64"
+  config.vm.box = "generic/ubuntu2204"
 
-  config.vm.provider "virtualbox" do |vb|
-    vb.gui = true
-    vb.memory = "2048"
-    vb.customize ["modifyvm", :id, "--clipboard-mode", "hosttoguest"]
+  config.vm.provider "libvirt" do |libvirt|
+    libvirt.memory = "2048"
+
+    # This makes clipboard work with virt-manager (not so with default VNC).
+    libvirt.graphics_type = "spice"
   end
 
+  config.vm.synced_folder ".", "/vagrant"
   config.vm.provision "ansible_local" do |ansible|
     ansible.playbook = "playbook.yml"
     ansible.limit = "all,localhost"
