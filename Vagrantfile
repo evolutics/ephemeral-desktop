@@ -8,12 +8,9 @@ Vagrant.configure("2") do |config|
     libvirt.graphics_type = "spice"
   end
 
-  config.vm.synced_folder ".", "/vagrant"
-  config.vm.provision "ansible_local" do |ansible|
-    ansible.playbook = "playbook.yml"
-    ansible.limit = "all,localhost"
-  end
-  config.vm.provision "shell", inline: "reboot"
+  config.vm.provision "file", source: "firefox_policies.json",
+    destination: "/home/vagrant/provisioning/firefox_policies.json"
+  config.vm.provision "shell", path: "provision.sh"
 
   config.vm.synced_folder "wormhole", "/home/vagrant/Desktop/wormhole"
 end
