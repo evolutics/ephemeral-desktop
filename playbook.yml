@@ -9,12 +9,7 @@
     - name: Install packages
       become: true
       ansible.builtin.package:
-        name:
-          - firefox
-          - virtualbox-guest-dkms
-          - virtualbox-guest-utils
-          - virtualbox-guest-x11
-          - xfce4
+        name: ubuntu-desktop-minimal
 
     - name: Configure keyboard layouts
       become: true
@@ -34,15 +29,6 @@
         dest: /etc/firefox
         mode: preserve
         src: firefox/policies
-
-    - name: Use Xfce by default
-      become: true
-      community.general.ini_file:
-        mode: u=rw,g=,o=
-        option: XSession
-        path: /var/lib/AccountsService/users/vagrant
-        section: User
-        value: xfce
 
     - name: Update all present packages
       become: true
