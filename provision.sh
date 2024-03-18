@@ -6,7 +6,9 @@ set -o pipefail
 
 sudo apt-get update
 sudo apt-get --yes install ubuntu-desktop-minimal
+
 sudo apt-get --yes dist-upgrade
+sudo snap refresh
 
 sudo sed \
   --expression 's/^XKBLAYOUT=.*/XKBLAYOUT="de,us"/' \
