@@ -5,7 +5,9 @@ set -o nounset
 set -o pipefail
 
 sudo apt-get update
-sudo apt-get --yes install firefox gnome-session gnome-terminal
+sudo apt-get --yes install gnome-session gnome-terminal
+
+sudo snap install firefox
 
 sudo apt-get --yes dist-upgrade
 sudo snap refresh
