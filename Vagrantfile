@@ -4,6 +4,7 @@ Vagrant.configure("2") do |config|
   config.vm.provider "libvirt" do |libvirt|
     libvirt.cpus = 2
     libvirt.memory = 4096
+    libvirt.memorybacking :access, :mode => "shared"
 
     # This makes clipboard work with virt-manager (not so with default VNC).
     libvirt.graphics_type = "spice"
@@ -13,5 +14,6 @@ Vagrant.configure("2") do |config|
     destination: "/home/vagrant/provisioning/firefox_policies.json"
   config.vm.provision "shell", path: "provision.sh"
 
-  config.vm.synced_folder "wormhole", "/home/vagrant/Desktop/wormhole"
+  config.vm.synced_folder "wormhole", "/home/vagrant/Desktop/wormhole",
+    type: "virtiofs"
 end
