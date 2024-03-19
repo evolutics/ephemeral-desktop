@@ -11,11 +11,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.synced_folder "wormhole", "/home/vagrant/wormhole", type: "virtiofs"
 
-  config.vm.provision "file", source: "firefox_policies.json",
-    destination: "/home/vagrant/provisioning/firefox_policies.json"
   config.vm.provision "shell", path: "provision.sh"
-
-  config.vm.synced_folder "wormhole", "/home/vagrant/Desktop/wormhole",
-    type: "virtiofs"
 end

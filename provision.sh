@@ -15,7 +15,7 @@ sudo sed \
   --expression 's/^XKBVARIANT=.*/XKBVARIANT="neo,"/' \
   --in-place /etc/default/keyboard
 
-sudo rsync --archive --mkpath --verbose provisioning/firefox_policies.json \
+sudo rsync --archive --mkpath --verbose wormhole/firefox_policies.json \
   /etc/firefox/policies/policies.json
 
 reboot
