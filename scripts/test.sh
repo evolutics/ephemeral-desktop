@@ -9,6 +9,7 @@ main() {
   cd "$(dirname "${script_folder}")"
 
   git ls-files -z | xargs -0 travel-kit check --
+  vagrant validate
 }
 
 main "$@"
