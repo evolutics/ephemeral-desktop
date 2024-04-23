@@ -5,7 +5,7 @@ set -o nounset
 set -o pipefail
 
 sudo apt-get update
-sudo apt-get --yes install gnome-session gnome-terminal
+sudo apt-get --yes install gnome-session gnome-terminal spice-vdagent
 
 sudo snap install firefox
 
