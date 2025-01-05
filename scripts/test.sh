@@ -2,12 +2,7 @@
 
 set -o errexit -o nounset -o pipefail
 
-main() {
-  local -r script_folder="$(dirname "$(readlink --canonicalize "$0")")"
-  cd "$(dirname "${script_folder}")"
+cd -- "$(dirname -- "$0")/.."
 
-  travel-kit
-  vagrant validate
-}
-
-main "$@"
+travel-kit
+vagrant validate
