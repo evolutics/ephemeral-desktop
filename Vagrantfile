@@ -2,8 +2,8 @@ Vagrant.configure("2") do |config|
   config.vm.box = "bento/ubuntu-24.04"
 
   config.vm.provider :libvirt do |libvirt|
-    libvirt.cpus = 2
-    libvirt.memory = 4096
+    libvirt.cpus = 4
+    libvirt.memory = 8192
     libvirt.memorybacking :access, :mode => "shared"
 
     # This makes clipboard work with virt-manager (not so with default VNC).
