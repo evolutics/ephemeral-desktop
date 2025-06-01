@@ -7,7 +7,7 @@ sudo apt-get --yes install gnome-session gnome-terminal spice-vdagent
 
 sudo snap install firefox
 
-sudo apt-get --yes dist-upgrade
+sudo DEBIAN_FRONTEND=noninteractive apt-get --yes dist-upgrade
 sudo snap refresh
 
 sudo sed \
