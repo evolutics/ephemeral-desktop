@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -o errexit -o nounset -o pipefail
+set -o errexit -o nounset -o pipefail -x
 
 sudo apt-get update
 sudo apt-get --yes install gnome-session gnome-terminal spice-vdagent
