@@ -17,5 +17,3 @@ sudo sed \
 
 sudo rsync --archive --mkpath --verbose wormhole/firefox_policies.json \
   /etc/firefox/policies/policies.json
-
-reboot

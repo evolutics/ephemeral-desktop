@@ -7,5 +7,5 @@ cd -- "$(dirname -- "$0")/.."
 vagrant destroy
 vagrant box update
 vagrant up
-vagrant reload # Somehow required for synced folders to work.
+vagrant reload # For updates. Also, somehow required for synced folders to work.
 virt-manager &
