@@ -12,10 +12,17 @@
     ...
   }:
     flake-utils.lib.eachDefaultSystem (system: let
-      pkgs = import nixpkgs {inherit system;};
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
     in {
       devShell = pkgs.mkShellNoCC {
-        buildInputs = [travel-kit.packages.${system}.default];
+        buildInputs =
+          (with pkgs; [
+            packer
+          ])
+          ++ [travel-kit.packages.${system}.default];
       };
     });
 }

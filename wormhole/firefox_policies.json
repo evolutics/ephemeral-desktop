@@ -1,9 +1,0 @@
-{
-  "policies": {
-    "EnableTrackingProtection": {
-      "Value": true
-    },
-    "OfferToSaveLogins": false,
-    "SanitizeOnShutdown": true
-  }
-}

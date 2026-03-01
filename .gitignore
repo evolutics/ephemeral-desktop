@@ -1,2 +1,5 @@
 /.direnv/
-/.vagrant/
+/access/
+/output-image/
+/output.qcow2
+/packer-manifest.json
