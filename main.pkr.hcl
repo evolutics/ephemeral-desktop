@@ -15,10 +15,6 @@ variable "iso_version" {
   type    = string
   default = "24.04.4" # Update-worthy.
 }
-variable "output_file" {
-  type    = string
-  default = "output.qcow2"
-}
 variable "password_hash" {
   type      = string
   sensitive = true
@@ -35,6 +31,7 @@ variable "ssh_private_key_file" {
 }
 
 locals {
+  output_folder       = "${path.root}/outputs/${uuidv4()}"
   share_mount_point   = uuidv4()
   share_name          = uuidv4()
   ssh_authorized_keys = var.ssh_private_key_file == null ? [] : [file("${var.ssh_private_key_file}.pub")]
@@ -45,6 +42,7 @@ source "qemu" "image" {
   iso_checksum = var.iso_checksum
   iso_url      = "https://releases.ubuntu.com/${var.iso_version}/ubuntu-${var.iso_version}-desktop-amd64.iso"
 
+  output_directory = local.output_folder
   # Required for cloud-init user data `write_files` to work.
   shutdown_command = "echo '${base64encode(var.password)}' | base64 --decode | sudo --stdin shutdown now"
 
@@ -118,15 +116,8 @@ build {
   post-processor "manifest" {
     custom_data = {
       iso_version = var.iso_version
-      output_file = var.output_file
+      output_file = "${local.output_folder}/packer-${source.name}"
       share_name  = local.share_name
     }
-  }
-
-  post-processor "shell-local" {
-    inline = [
-      "mv '${path.root}/output-${source.name}/packer-image' '${var.output_file}'",
-      "rmdir '${path.root}/output-${source.name}'",
-    ]
   }
 }

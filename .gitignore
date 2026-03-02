@@ -1,5 +1,4 @@
 /.direnv/
 /access/
-/output-image/
-/output.qcow2
+/outputs/
 /packer-manifest.json
