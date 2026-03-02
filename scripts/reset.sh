@@ -46,6 +46,7 @@ run_vm() {
     --memory "${memory_in_mib}" \
     --memorybacking access.mode=shared,source.type=memfd \
     --name "$(openssl rand -hex 16)" \
+    --noautoconsole \
     --os-variant "ubuntu${iso_version:0:5}" \
     --vcpus 4
 }
