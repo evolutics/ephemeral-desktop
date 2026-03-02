@@ -17,6 +17,7 @@ rotate_access() {
   )
 
   export PKR_VAR_ssh_private_key_file=access/ssh_id
+  trap 'rm --force "${PKR_VAR_ssh_private_key_file}"' EXIT
   ssh-keygen -N '' -f "${PKR_VAR_ssh_private_key_file}" -t ed25519
 }
 
