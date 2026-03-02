@@ -29,19 +29,16 @@ variable "password" {
   sensitive = true
   default   = "ubuntu"
 }
-variable "ssh_private_key_file" { # TODO: Deduplicate default.
+variable "ssh_private_key_file" {
   type    = string
-  default = "access/ssh_id"
-}
-variable "ssh_public_key_file" { # TODO: Deduplicate default.
-  type    = string
-  default = "access/ssh_id.pub"
+  default = null
 }
 
 locals {
-  share_mount_point = uuidv4()
-  share_name        = uuidv4()
-  username          = replace(uuidv4(), "-", "") # Username length limit is 32.
+  share_mount_point   = uuidv4()
+  share_name          = uuidv4()
+  ssh_authorized_keys = var.ssh_private_key_file == null ? [] : [file("${var.ssh_private_key_file}.pub")]
+  username            = replace(uuidv4(), "-", "") # Username length limit is 32.
 }
 
 source "qemu" "image" {
@@ -77,7 +74,7 @@ source "qemu" "image" {
           variant = "neo"
         }
         ssh = {
-          authorized-keys = [file(var.ssh_public_key_file)]
+          authorized-keys = local.ssh_authorized_keys
           install-server  = true
         }
         user-data = {

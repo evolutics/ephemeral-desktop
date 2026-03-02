@@ -16,8 +16,8 @@ rotate_access() {
     printf '%s' "${PKR_VAR_password}" >access/password.txt
   )
 
-  # TODO: Use Packer variable for SSH keys.
-  ssh-keygen -N '' -f access/ssh_id -t ed25519
+  export PKR_VAR_ssh_private_key_file=access/ssh_id
+  ssh-keygen -N '' -f "${PKR_VAR_ssh_private_key_file}" -t ed25519
 }
 
 build_image() {
