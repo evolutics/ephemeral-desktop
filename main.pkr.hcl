@@ -92,7 +92,7 @@ source "qemu" "image" {
                 }
               })
               path = "/etc/firefox/policies/policies.json"
-            }
+            },
           ]
         }
       }
