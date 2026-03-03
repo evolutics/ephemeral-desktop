@@ -20,11 +20,6 @@ variable "password_hash" {
   sensitive = true
   default   = "6$wdAcoXrU039hKYPd$508Qvbe7ObUnxoj15DRCkzC3qO7edjH0VV7BPNRDYK4QR8ofJaEEF2heacn0QgD.f8pO8SNp83XNdWG6tocBM1"
 }
-variable "password" {
-  type      = string
-  sensitive = true
-  default   = "ubuntu"
-}
 variable "ssh_private_key_file" {
   type    = string
   default = null
@@ -44,7 +39,7 @@ source "qemu" "image" {
 
   output_directory = local.output_folder
   # Required for cloud-init user data `write_files` to work.
-  shutdown_command = "echo '${base64encode(var.password)}' | base64 --decode | sudo --stdin shutdown now"
+  shutdown_command = "sudo shutdown now"
 
   cpus   = 2
   memory = 4096 # MiB.
@@ -78,6 +73,12 @@ source "qemu" "image" {
         user-data = {
           mounts = [
             [local.share_name, local.share_mount_point, "virtiofs"],
+          ]
+          users = [
+            {
+              name = local.username
+              sudo = "ALL=(root) NOPASSWD: /usr/sbin/shutdown now"
+            },
           ]
           write_files = [
             {

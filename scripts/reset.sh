@@ -5,15 +5,15 @@ set -o errexit -o nounset -o pipefail
 rotate_access() {
   rm --force --recursive access
 
-  PKR_VAR_password="$(openssl rand -base64 32)"
-  export PKR_VAR_password
-  PKR_VAR_password_hash="$(openssl passwd -6 -- "${PKR_VAR_password}")"
+  local password
+  password="$(openssl rand -base64 32)"
+  PKR_VAR_password_hash="$(openssl passwd -6 -- "${password}")"
   export PKR_VAR_password_hash
 
   (
     umask u=rwx,go=
     mkdir access
-    printf '%s' "${PKR_VAR_password}" >access/password.txt
+    printf '%s' "${password}" >access/password.txt
   )
 
   export PKR_VAR_ssh_private_key_file=access/ssh_id
