@@ -118,7 +118,6 @@ build {
     custom_data = {
       iso_version   = var.iso_version
       output_folder = local.output_folder
-      output_file   = "${local.output_folder}/packer-${source.name}"
       share_name    = local.share_name
     }
   }

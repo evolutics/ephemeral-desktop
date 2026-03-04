@@ -21,16 +21,16 @@ build_image() {
 }
 
 run_vm() {
-  local custom_data
-  custom_data="$(jq \
-    '. as $root | .builds[] | select(.packer_run_uuid == $root.last_run_uuid) | .custom_data' \
+  local build
+  build="$(jq \
+    '. as $root | .builds[] | select(.packer_run_uuid == $root.last_run_uuid)' \
     packer-manifest.json)"
 
   local iso_version output_file output_folder share_name
-  iso_version="$(echo "${custom_data}" | jq --raw-output '.iso_version')"
-  output_file="$(echo "${custom_data}" | jq --raw-output '.output_file')"
-  output_folder="$(echo "${custom_data}" | jq --raw-output '.output_folder')"
-  share_name="$(echo "${custom_data}" | jq --raw-output '.share_name')"
+  iso_version="$(echo "${build}" | jq --raw-output '.custom_data.iso_version')"
+  output_file="$(echo "${build}" | jq --raw-output '.files[0].name')"
+  output_folder="$(echo "${build}" | jq --raw-output '.custom_data.output_folder')"
+  share_name="$(echo "${build}" | jq --raw-output '.custom_data.share_name')"
 
   local -r memory_in_mib=8192
 
