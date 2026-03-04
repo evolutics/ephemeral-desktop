@@ -41,8 +41,8 @@ source "qemu" "image" {
   # Required for cloud-init user data `write_files` to work.
   shutdown_command = "sudo shutdown now"
 
-  cpus   = 2
-  memory = 4096 # MiB.
+  cpus   = 4
+  memory = 8192 # MiB.
 
   accelerator = "kvm"
   format      = "qcow2"
