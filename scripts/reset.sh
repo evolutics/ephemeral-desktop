@@ -14,7 +14,7 @@ build_image() {
     ssh-keygen -N '' -f "${PKR_VAR_ssh_private_key_file}" -t ed25519
 
     packer init .
-    packer build .
+    packer build -on-error=ask .
   )
 }
 
