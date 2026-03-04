@@ -3,14 +3,12 @@
 set -o errexit -o nounset -o pipefail
 
 build_image() {
-  rm --force --recursive access
-
   VM_PASSWORD="$(openssl rand -base64 32)"
   export VM_PASSWORD
   PKR_VAR_password_hash="$(openssl passwd -6 -- "${VM_PASSWORD}")"
   export PKR_VAR_password_hash
 
-  export PKR_VAR_ssh_private_key_file=access/ssh_id
+  export PKR_VAR_ssh_private_key_file=.ssh/id
   (
     trap 'rm --force "${PKR_VAR_ssh_private_key_file}"' EXIT
     ssh-keygen -N '' -f "${PKR_VAR_ssh_private_key_file}" -t ed25519
