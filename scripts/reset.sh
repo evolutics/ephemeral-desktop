@@ -2,7 +2,7 @@
 
 set -o errexit -o nounset -o pipefail
 
-rotate_access() {
+build_image() {
   rm --force --recursive access
 
   VM_PASSWORD="$(openssl rand -base64 32)"
@@ -11,13 +11,13 @@ rotate_access() {
   export PKR_VAR_password_hash
 
   export PKR_VAR_ssh_private_key_file=access/ssh_id
-  trap 'rm --force "${PKR_VAR_ssh_private_key_file}"' EXIT
-  ssh-keygen -N '' -f "${PKR_VAR_ssh_private_key_file}" -t ed25519
-}
+  (
+    trap 'rm --force "${PKR_VAR_ssh_private_key_file}"' EXIT
+    ssh-keygen -N '' -f "${PKR_VAR_ssh_private_key_file}" -t ed25519
 
-build_image() {
-  packer init .
-  packer build .
+    packer init .
+    packer build .
+  )
 }
 
 run_vm() {
@@ -55,7 +55,6 @@ main() {
   cd -- "$(dirname -- "$0")/.."
 
   date
-  rotate_access
   build_image
   run_vm
   virt-manager &
