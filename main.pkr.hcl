@@ -77,7 +77,7 @@ source "qemu" "image" {
           users = [
             {
               name = local.username
-              sudo = "ALL=(root) NOPASSWD: /usr/sbin/shutdown now"
+              sudo = "ALL=(root) NOPASSWD: /usr/sbin/shutdown now, /usr/bin/apt-get --yes purge openssh-server"
             },
           ]
           write_files = [
@@ -113,6 +113,10 @@ source "qemu" "image" {
 
 build {
   sources = ["source.qemu.image"]
+
+  provisioner "shell" {
+    inline = ["sudo apt-get --yes purge openssh-server"]
+  }
 
   post-processor "manifest" {
     custom_data = {
