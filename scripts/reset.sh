@@ -33,16 +33,20 @@ query_last_build_manifest() {
 }
 
 run_vm() {
-  local iso_version output_file share_name
+  local iso_version output_file output_folder share_name
   iso_version="$(query_last_build_manifest '.custom_data.iso_version')"
   output_file="$(query_last_build_manifest '.files[0].name')"
+  output_folder="$(query_last_build_manifest '.custom_data.output_folder')"
   share_name="$(query_last_build_manifest '.custom_data.share_name')"
+
+  local -r share_folder="${PWD}/${output_folder}/wormhole"
+  mkdir --parents "${share_folder}"
 
   local -r memory_in_mib=8192
 
   virt-install \
     --disk "${output_file}" \
-    --filesystem "${PWD}/wormhole,${share_name},driver.type=virtiofs" \
+    --filesystem "${share_folder},${share_name},driver.type=virtiofs" \
     --import \
     --memory "${memory_in_mib}" \
     --memorybacking access.mode=shared,source.type=memfd \
