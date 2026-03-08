@@ -44,8 +44,9 @@ source "qemu" "image" {
   cpus   = 4
   memory = 8192 # MiB.
 
-  accelerator = "kvm"
-  format      = "qcow2"
+  accelerator     = "kvm"
+  format          = "qcow2"
+  skip_compaction = true
 
   ssh_private_key_file = var.ssh_private_key_file
   ssh_timeout          = "20m"
