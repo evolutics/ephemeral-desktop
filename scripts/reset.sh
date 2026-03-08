@@ -11,7 +11,7 @@ build_image() {
   export PKR_VAR_ssh_private_key_file=.ssh/id
   (
     trap 'rm --force "${PKR_VAR_ssh_private_key_file}"' EXIT
-    ssh-keygen -N '' -f "${PKR_VAR_ssh_private_key_file}" -t ed25519
+    ssh-keygen -f "${PKR_VAR_ssh_private_key_file}" -N '' -t ed25519
 
     packer init .
     packer build -on-error=ask .
