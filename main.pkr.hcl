@@ -7,6 +7,10 @@ packer {
   }
 }
 
+variable "format" {
+  type    = string
+  default = "qcow2"
+}
 variable "iso_checksum" {
   type    = string
   default = "sha256:3a4c9877b483ab46d7c3fbe165a0db275e1ae3cfe56a5657e5a47c2f99a99d1e"
@@ -45,7 +49,7 @@ source "qemu" "image" {
   memory = 8192 # MiB.
 
   accelerator     = "kvm"
-  format          = "qcow2"
+  format          = var.format
   skip_compaction = true
 
   ssh_private_key_file = var.ssh_private_key_file
@@ -121,6 +125,7 @@ build {
 
   post-processor "manifest" {
     custom_data = {
+      format        = var.format
       iso_version   = var.iso_version
       output_folder = local.output_folder
       share_name    = local.share_name

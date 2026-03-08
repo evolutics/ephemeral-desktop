@@ -33,7 +33,8 @@ query_last_build_manifest() {
 }
 
 run_vm() {
-  local iso_version output_file output_folder share_name
+  local format iso_version output_file output_folder share_name
+  format="$(query_last_build_manifest '.custom_data.format')"
   iso_version="$(query_last_build_manifest '.custom_data.iso_version')"
   output_file="$(query_last_build_manifest '.files[0].name')"
   output_folder="$(query_last_build_manifest '.custom_data.output_folder')"
@@ -45,7 +46,7 @@ run_vm() {
   local -r memory_in_mib=8192
 
   virt-install \
-    --disk "${output_file}" \
+    --disk "${output_file},format=${format}" \
     --filesystem "${share_folder},${share_name},driver.type=virtiofs" \
     --import \
     --memory "${memory_in_mib}" \
