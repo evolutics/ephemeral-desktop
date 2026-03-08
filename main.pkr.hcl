@@ -31,7 +31,7 @@ variable "ssh_private_key_file" {
 
 locals {
   output_folder       = "${path.root}/outputs/${uuidv4()}"
-  share_mount_point   = "/mnt/${uuidv4()}"
+  share_mount_point   = "/home/${local.username}/Desktop/${uuidv4()}"
   share_name          = uuidv4()
   ssh_authorized_keys = var.ssh_private_key_file == null ? [] : [file("${var.ssh_private_key_file}.pub")]
   username            = replace(uuidv4(), "-", "") # Username length limit is 32.
