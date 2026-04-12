@@ -79,10 +79,18 @@ source "qemu" "image" {
           mounts = [
             [local.share_name, local.share_mount_point, "virtiofs"],
           ]
+          runcmd = [
+            "ufw default deny incoming",
+            "ufw default deny outgoing",
+            "ufw allow out domain",
+            "ufw allow out http",
+            "ufw allow out https",
+            "ufw allow out ntp",
+          ]
           users = [
             {
               name = local.username
-              sudo = "ALL=(root) NOPASSWD: /usr/sbin/shutdown now, /usr/bin/apt-get --yes purge openssh-server"
+              sudo = "ALL=(root) NOPASSWD: /usr/sbin/shutdown now, /usr/bin/apt-get --yes purge openssh-server, /usr/sbin/ufw --force enable"
             },
           ]
           write_files = [
@@ -120,7 +128,10 @@ build {
   sources = ["source.qemu.image"]
 
   provisioner "shell" {
-    inline = ["sudo apt-get --yes purge openssh-server"]
+    inline = [
+      "sudo apt-get --yes purge openssh-server",
+      "sudo ufw --force enable",
+    ]
   }
 
   post-processor "manifest" {
