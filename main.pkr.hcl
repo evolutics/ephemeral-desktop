@@ -80,6 +80,7 @@ source "qemu" "image" {
             [local.share_name, local.share_mount_point, "virtiofs"],
           ]
           runcmd = [
+            "snap refresh",
             "ufw default deny incoming",
             "ufw default deny outgoing",
             "ufw allow out domain",
