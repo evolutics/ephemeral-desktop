@@ -53,7 +53,7 @@ source "qemu" "image" {
   skip_compaction = true
 
   ssh_private_key_file = var.ssh_private_key_file
-  ssh_timeout          = "20m"
+  ssh_timeout          = "30m"
   ssh_username         = local.username
 
   http_bind_address = "127.0.0.1"
