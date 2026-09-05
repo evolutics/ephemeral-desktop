@@ -13,11 +13,11 @@ variable "format" {
 }
 variable "iso_checksum" {
   type    = string
-  default = "sha256:3a4c9877b483ab46d7c3fbe165a0db275e1ae3cfe56a5657e5a47c2f99a99d1e"
+  default = "sha256:601e30fbf5d97759367c632e2c33630665039b7e2158fd068403da3ccf1bda1f"
 }
 variable "iso_version" {
   type    = string
-  default = "24.04.4" # Update-worthy.
+  default = "26.04.1" # Update-worthy.
 }
 variable "password_hash" {
   type      = string
@@ -114,7 +114,7 @@ source "qemu" "image" {
   }
 
   # Adapted from Bento (update-worthy,
-  # https://github.com/chef/bento/blob/main/os_pkrvars/ubuntu/ubuntu-24.04-x86_64.pkrvars.hcl):
+  # https://github.com/chef/bento/blob/main/os_pkrvars/ubuntu/ubuntu-26.04-x86_64.pkrvars.hcl):
   boot_steps = [
     ["e<wait>", "Edit boot commands"],
     ["<down><down><down>", "Go to line `linux …`"],
