@@ -34,7 +34,7 @@ locals {
   share_mount_point   = "/home/${local.username}/Desktop/${uuidv4()}"
   share_name          = uuidv4()
   ssh_authorized_keys = var.ssh_private_key_file == null ? [] : [file("${var.ssh_private_key_file}.pub")]
-  username            = replace(uuidv4(), "-", "") # Username length limit is 32.
+  username            = "u${substr(replace(uuidv4(), "-", ""), 0, 31)}" # Username length limit is 32.
 }
 
 source "qemu" "image" {
