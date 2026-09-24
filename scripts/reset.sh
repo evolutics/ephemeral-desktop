@@ -45,6 +45,9 @@ run_vm() {
 
   local -r memory_in_mib=8192
 
+  # TODO: Drop workaround line once version available.
+  iso_version='25.10.0'
+
   virt-install \
     --disk "${output_file},format=${format}" \
     --filesystem "${share_folder},${share_name},driver.type=virtiofs" \
